@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-container, .fetch-list-container {
+  width: 45%;
+}
+
+.fetch-list-container {
+  height: 400px; /* Set the height of the box */
+  /* Add vertical scrollbar if content exceeds height */
+}
+
+.box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+  height: 100%; /* Occupy full height of container */
+  box-sizing: border-box;
+  overflow-y: auto; /* Include padding and border in the total width and height */
+}
+
+h2 {
+  color: #0d5b7c;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"], input[type="email"] {
+  width: calc(100% - 22px);
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+input[type="submit"], .fetch-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover, .fetch-button:hover {
+  background-color: #0056b3;
+}
+
+.colaborators-list {
+  margin-top: 20px;
+}
+
+.search-bar {
+  width: calc(100% - 22px);
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.colaborator-item {
+  margin-bottom: 10px;
+}
+
+.colaborator-name {
+  font-weight: bold;
+}
+
+.colaborator-email {
+  color: #007bff;
+}
