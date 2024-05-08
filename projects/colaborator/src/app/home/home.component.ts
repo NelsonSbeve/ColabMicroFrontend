@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent {
   filteredItems: any[] = [];
   searchTerm: string = '';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private toast: NgToastService) {}
   ngOnInit() {
     this.fetchItems();
   }
@@ -44,6 +45,7 @@ export class HomeComponent {
     };
     this.apiService.createItem(newItem).subscribe((response) => {
       console.log('Created item:', response);
+      this.toast.success({detail: 'New Colab added!', summary: 'Success', duration: 5000});
       // Handle success or any UI updates here
     });
   }
