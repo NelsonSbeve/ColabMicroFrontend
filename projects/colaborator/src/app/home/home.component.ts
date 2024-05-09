@@ -15,6 +15,7 @@ export class HomeComponent {
   items: any[] = [];
   filteredItems: any[] = [];
   searchTerm: string = '';
+  showAddColabForm = false;
 
   constructor(private apiService: ApiService, private toast: NgToastService) {}
   ngOnInit() {
@@ -36,6 +37,9 @@ export class HomeComponent {
     );
   }
 
+  hideAddColabPopup() {
+    this.showAddColabForm = false;
+  }
   createNewItem(formData: any) {
     const newItem = {
       email: formData.email,
@@ -45,6 +49,7 @@ export class HomeComponent {
     };
     this.apiService.createItem(newItem).subscribe((response) => {
       console.log('Created item:', response);
+      this.hideAddColabPopup();
       this.toast.success({detail: 'New Colab added!', summary: 'Success', duration: 5000});
       // Handle success or any UI updates here
     });
