@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
-import { NgToastService } from 'ng-angular-popup';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,  NgToastModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -47,11 +47,24 @@ export class HomeComponent {
       street: formData.address,
       postalCode: formData.postalCode
     };
-    this.apiService.createItem(newItem).subscribe((response) => {
-      console.log('Created item:', response);
-      this.hideAddColabPopup();
-      this.toast.success({detail: 'New Colab added!', summary: 'Success', duration: 5000});
-      // Handle success or any UI updates here
+    this.apiService.createItem(newItem).subscribe({
+      next: (response) => {
+        console.log('Created item:', response);
+        this.toast.success({ detail: 'New Colab added!', summary: 'Success', duration: 5000 });
+        this.hideAddColabPopup();
+        this.fetchItems();
+        // Handle success or any UI updates here
+      },
+      error: (errorResponse) => {
+        console.error('Error creating item:', errorResponse);
+        if (errorResponse.error && Array.isArray(errorResponse.error) && errorResponse.error.length > 0) {
+          const errorMessage = errorResponse.error[0]; // Extract the error message
+          this.toast.error({ detail: errorMessage, summary: 'Error' });
+        } else {
+          this.toast.error({ detail: 'An error occurred while creating the item.', summary: 'Error' });
+        }
+        // Handle error or any UI updates here
+      }
     });
   }
 }

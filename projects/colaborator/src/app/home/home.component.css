@@ -163,3 +163,38 @@ input[type="submit"]:hover, .fetch-button:hover {
 .close:hover {
   color: black;
 }
+
+
+/* Collaborators list styling */
+.colaborators-list {
+  margin: auto; /* Center the list horizontally */
+  width: 100%; /* Stretch from edge to edge */
+}
+
+.colaborators-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.colaborators-list th,
+.colaborators-list td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.colaborators-list th {
+  background-color: #f2f2f2;
+}
+
+.colaborators-list .colaborator-item {
+  margin-bottom: 10px;
+}
+
+.colaborators-list .colaborator-name {
+  font-weight: bold;
+}
+
+.colaborators-list .colaborator-email {
+  color: #007bff;
+}
