@@ -50,9 +50,10 @@ export class HomeComponent {
     this.apiService.createItem(newItem).subscribe({
       next: (response) => {
         console.log('Created item:', response);
+        this.fetchItems();
         this.toast.success({ detail: 'New Colab added!', summary: 'Success', duration: 5000 });
         this.hideAddColabPopup();
-        this.fetchItems();
+
         // Handle success or any UI updates here
       },
       error: (errorResponse) => {
