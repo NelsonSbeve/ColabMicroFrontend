@@ -12,6 +12,12 @@ import { NgToastModule, NgToastService } from 'ng-angular-popup';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+viewProjects(_t68: any) {
+throw new Error('Method not implemented.');
+}
+viewHolidays(_t68: any) {
+throw new Error('Method not implemented.');
+}
   items: any[] = [];
   filteredItems: any[] = [];
   searchTerm: string = '';

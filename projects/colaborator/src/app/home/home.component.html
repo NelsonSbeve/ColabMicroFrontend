@@ -1,59 +1,78 @@
 <div class="container">
   <!-- Create Collaborator Form -->
+
   <div *ngIf="showAddColabForm" class="add-holiday-form">
-  <div class="form-overlay"></div>
-  <div class="form-container">
-    <div class="box">
-      <span class="close" (click)="showAddColabForm = false">&times;</span>
-      <form (submit)="createNewItem(form.value)" #form="ngForm">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required ngModel>
-        <br>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required ngModel>
-        <br>
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" required ngModel>
-        <br>
-        <label for="postalCode">Postal Code:</label>
-        <input type="text" id="postalCode" name="postalCode" required ngModel>
-        <br>
-        <input type="submit" value="Submit">
-      </form>
+    <div class="form-overlay"></div>
+    <div class="form-container">
+      <div class="box">
+        <span class="close" (click)="showAddColabForm = false">&times;</span>
+        <form (submit)="createNewItem(form.value)" #form="ngForm">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required ngModel>
+          <br>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required ngModel>
+          <br>
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required ngModel>
+          <br>
+          <label for="postalCode">Postal Code:</label>
+          <input type="text" id="postalCode" name="postalCode" required ngModel>
+          <br>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
     </div>
-  </div>
-  </div>
-</div>
-
-  <div class="container">
-    <button class="add-colab-btn" (click)="showAddColabForm = true">Add Colaborator</button>
-    <div class="container2">
-      <input type="text" class="search-bar" placeholder="Search collaborators by name" [(ngModel)]="searchTerm" (input)="searchCollaborators()">
-      <!-- Fetch button -->
-      <button class="fetch-button" (click)="fetchItems()">Fetch Collaborators</button>
     </div>
 </div>
 
+<div class="container">
+  <button class="add-colab-btn" (click)="showAddColabForm = true">Add Colaborator</button>
+  <div class="container2">
+    <input type="text" class="search-bar" placeholder="Search collaborators by name" [(ngModel)]="searchTerm" (input)="searchCollaborators()">
+  </div>
+</div>
 <ng-toast></ng-toast>
-  <!-- Fetch Collaborators Section -->
-  <div *ngIf="filteredItems.length > 0" class="colaborators-list">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>Postal Code</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of filteredItems" class="colaborator-item">
-          <td class="colaborator-name">{{ item.name }}</td>
-          <td class="colaborator-email">{{ item.email }}</td>
-          <td>{{ item.street }}</td>
-          <td>{{ item.postalCode }}</td>
-        </tr>
-      </tbody>
-    </table>
+
+<div class="half-page-container">
+  <div class="top-half-container">
+    <div *ngIf="filteredItems.length > 0" class="colaborators-list">
+      <table>
+        <!-- Table headers -->
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Postal Code</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <!-- Table body -->
+        <tbody>
+          <!-- Loop through the list data -->
+          <tr *ngFor="let item of filteredItems" class="colaborator-item">
+            <td class="colaborator-name">{{ item.name }}</td>
+            <td class="colaborator-email">{{ item.email }}</td>
+            <td>{{ item.street }}</td>
+            <td>{{ item.postalCode }}</td>
+            <td>
+              <!-- Buttons for Holidays and Projects -->
+              <button (click)="viewHolidays(item)" class="buttonHoliday">Holidays</button>     <button (click)="viewProjects(item)" style="margin-left: 20px;" class="buttonProject">Projects</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
+  <div class="bottom-half-container">
+    <!-- Pagination -->
+    <!-- Your pagination code here -->
+
+    <!-- Container for additional content -->
+    <div class="additional-content-container">
+      <!-- Additional content here -->
+    </div>
+  </div>
+</div>

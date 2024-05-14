@@ -1,14 +1,10 @@
-/* Reset default font family */
-* {
-  font-family: sans-serif;
-}
-
-/* Container styling */
+/* Styles for the main content */
 .container {
-  margin: 15px;
+  margin: 10px;
   display: flex;
   justify-content: space-between;
 }
+
 .form-container {
   width: 45%;
 }
@@ -18,7 +14,7 @@
   font-size: 14px;
   border: none;
   border-radius: 5px;
-  background-color: #3498db; /* Blue color */
+  background-color: #3498db;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -36,7 +32,6 @@
   border-radius: 5px;
   outline: none;
 }
-
 .action2 {
   padding: 10px 20px;
   font-size: 14px;
@@ -166,9 +161,26 @@ input[type="submit"]:hover, .fetch-button:hover {
 
 
 /* Collaborators list styling */
-.colaborators-list {
-  margin: auto; /* Center the list horizontally */
-  width: 100%; /* Stretch from edge to edge */
+.half-page-container {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  height: calc(90vh - 80px); /* Set the height of the container (adjust as needed) */
+  border: 1px solid #ccc; /* Add outline to the container */
+  border-radius: 8px; /* Add border radius for styling */
+  overflow: hidden; /* Hide overflow to prevent double scrollbars */
+}
+
+.top-half-container,
+.bottom-half-container {
+  flex: 1; /* Take up remaining vertical space */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  padding: 10px; /* Add padding for spacing */
+}
+
+/* Additional styles for the bottom half container */
+.bottom-half-container {
+  border-top: 1px solid #ccc; /* Add border to separate from the top container */
+  border-bottom: 1px solid #ccc; /* Add border to the bottom of the container */
 }
 
 .colaborators-list table {
@@ -198,3 +210,4 @@ input[type="submit"]:hover, .fetch-button:hover {
 .colaborators-list .colaborator-email {
   color: #007bff;
 }
+
