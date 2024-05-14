@@ -49,7 +49,7 @@ export class HomeComponent {
     };
     this.apiService.createItem(newItem).subscribe({
       next: async (response) => {
-        await wait(2000);
+        await wait(500);
         this.fetchItems();
         console.log('Created item:', response);
         this.toast.success({ detail: 'New Colab added!', summary: 'Success', duration: 5000 });

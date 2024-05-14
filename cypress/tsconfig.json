@@ -1,0 +1,6 @@
+{"include": [
+  "**/*.ts",
+  "../cypress.config.ts"
+],
+"exclude": []
+}
