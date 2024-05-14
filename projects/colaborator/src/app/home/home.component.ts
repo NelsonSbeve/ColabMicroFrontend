@@ -48,7 +48,8 @@ export class HomeComponent {
       postalCode: formData.postalCode
     };
     this.apiService.createItem(newItem).subscribe({
-      next: (response) => {
+      next: async (response) => {
+        await wait(2000);
         this.fetchItems();
         console.log('Created item:', response);
         this.toast.success({ detail: 'New Colab added!', summary: 'Success', duration: 5000 });
@@ -69,3 +70,9 @@ export class HomeComponent {
     });
   }
 }
+function wait(ms: number): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
