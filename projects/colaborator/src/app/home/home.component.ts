@@ -28,7 +28,7 @@ throw new Error('Method not implemented.');
   searchTerm: string = '';
   showAddColabForm = false;
   currentPage: number = 1;
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 5;
 
   constructor(private apiService: ApiService, private toast: NgToastService) {}
   ngOnInit() {

@@ -26,10 +26,15 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container3">
   <button class="add-colab-btn" (click)="showAddColabForm = true">Add Colaborator</button>
   <div class="container2">
     <input type="text" class="search-bar" placeholder="Search collaborators by name" [(ngModel)]="searchTerm" (input)="searchCollaborators()">
+  </div>
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>{{ currentPage }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
   </div>
 </div>
 <ng-toast></ng-toast>
@@ -65,12 +70,7 @@
         </tbody>
       </table>
 
-      <!-- Pagination controls -->
-      <div class="pagination">
-        <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-        <span>{{ currentPage }} / {{ totalPages }}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-      </div>
+
     </div>
   </div>
 
