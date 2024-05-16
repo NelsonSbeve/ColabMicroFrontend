@@ -1,17 +1,30 @@
 describe('Home Component', () => {
   beforeEach(() => {
-    cy.visit('/'); // Assuming the component is at the root route
+    cy.intercept('GET', '/api/items', {
+      statusCode: 200,
+      body: [
+        {
+          name: 'John Doe',
+          email: 'john@example.com',
+          street: '123 Street',
+          postalCode: '12345'
+        }
+      ]
+    }).as('getItems');
+    cy.visit('/');
   });
 
-  it('should display a form for adding collaborators', () => {
+  it('should open and close the add collaborator form', () => {
     cy.get('.add-colab-btn').click();
     cy.get('.add-holiday-form').should('be.visible');
-    cy.get('.form-container').should('exist');
+    cy.get('.close').click();
+    cy.get('.add-holiday-form', { timeout: 10000 }).should('not.exist');
   });
 
   it('should add a new collaborator', () => {
+    const randomEmail = `newcolab${Math.floor(Math.random() * 100000)}@example.com`;
     const newItem = {
-      email: `newcolab${Math.floor(Math.random() * 100000)}@example.com`, // Random email
+      email: randomEmail,
       name: 'New Colaborator',
       address: '123 New Street',
       postalCode: '12345'
@@ -29,30 +42,33 @@ describe('Home Component', () => {
     cy.get('#postalCode').type(newItem.postalCode);
     cy.get('form').submit();
 
-
-
+    cy.get('.add-holiday-form').should('not.exist');
     cy.get('.colaborators-list').should('contain', newItem.name);
 
   });
 
   it('should search for collaborators by name', () => {
-    const searchTerm = 'New Colaborator';
-
-    cy.get('.search-bar').type(searchTerm);
+    cy.get('.search-bar').type('New');
     cy.get('.colaborators-list').find('.colaborator-item').each(($item) => {
-      cy.wrap($item).find('.colaborator-name').should('contain', searchTerm);
+      cy.wrap($item).find('.colaborator-name').should('contain', 'New');
     });
   });
 
   it('should fetch collaborators on page load', () => {
-    cy.intercept('GET', '/api/items', {
-      statusCode: 200,
-    }).as('getItems');
-
     cy.reload();
 
-    cy.get('.colaborators-list').should('exist');
-    cy.get('.colaborators-list').should('contain', 'New');
+      cy.get('.colaborators-list').should('exist');
+      cy.get('.colaborators-list').should('contain', 'New');
 
   });
+
+  // it('should view holidays for a collaborator', () => {
+  //   cy.get('.colaborators-list').contains('Holidays').click();
+  //   cy.get('@viewHolidays').should('have.been.called');
+  // });
+
+  // it('should view projects for a collaborator', () => {
+  //   cy.get('.colaborators-list').contains('Projects').click();
+  //   cy.get('@viewProjects').should('have.been.called');
+  // });
 });
