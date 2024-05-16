@@ -27,11 +27,42 @@ throw new Error('Method not implemented.');
   filteredItems: any[] = [];
   searchTerm: string = '';
   showAddColabForm = false;
+  currentPage: number = 1;
+  itemsPerPage: number = 6;
 
   constructor(private apiService: ApiService, private toast: NgToastService) {}
   ngOnInit() {
     this.fetchItems();
   }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredItems.length / this.itemsPerPage);
+  }
+  get startIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get endIndex(): number {
+    return Math.min(this.startIndex + this.itemsPerPage - 1, this.filteredItems.length - 1);
+  }
+
+  get pagedItems(): any[] {
+    return this.filteredItems.slice(this.startIndex, this.endIndex + 1);
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+
 
   fetchItems() {
     if (this.apiService) {

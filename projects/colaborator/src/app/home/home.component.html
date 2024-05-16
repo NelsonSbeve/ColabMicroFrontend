@@ -50,21 +50,30 @@
         </thead>
         <!-- Table body -->
         <tbody>
-          <!-- Loop through the list data -->
-          <tr *ngFor="let item of filteredItems" class="colaborator-item">
+          <!-- Loop through the data for the current page -->
+          <tr *ngFor="let item of pagedItems" class="colaborator-item">
             <td class="colaborator-name">{{ item.name }}</td>
             <td class="colaborator-email">{{ item.email }}</td>
             <td>{{ item.street }}</td>
             <td>{{ item.postalCode }}</td>
             <td>
               <!-- Buttons for Holidays and Projects -->
-              <button (click)="viewHolidays(item)" class="buttonHoliday">Holidays</button>     <button (click)="viewProjects(item)" style="margin-left: 20px;" class="buttonProject">Projects</button>
+              <button (click)="viewHolidays(item)" class="buttonHoliday">Holidays</button>
+              <button (click)="viewProjects(item)" style="margin-left: 20px;" class="buttonProject">Projects</button>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <!-- Pagination controls -->
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
     </div>
   </div>
+
 
   <div class="bottom-half-container">
     <!-- Pagination -->

@@ -34,35 +34,46 @@ describe('Home Component', () => {
   });
 
   it('should add a new collaborator', () => {
-    const randomEmail = `newcolab${Math.floor(Math.random() * 100000)}@example.com`;
+    const randomEmail = `newcolab${Math.floor(Math.random() * 1000000)}@example.com`;
     const newItem = {
       email: randomEmail,
       name: 'New Colaborator',
       address: '123 New Street',
       postalCode: '12345'
     };
-    cy.get('.colaborators-list').should('exist').its('length').as('initialCollaboratorCount');
 
-    cy.intercept('POST', '/api/items', {
-      statusCode: 200,
-      body: newItem
-    }).as('addItem');
+    cy.get('.colaborators-list .colaborator-item').its('length').then(initialCount => {
+      // Convert initialCount to a number
+      const initialCountNumber = Number(initialCount);
 
-    cy.get('.add-colab-btn').click();
-    cy.get('#email').type(newItem.email);
-    cy.get('#name').type(newItem.name);
-    cy.get('#address').type(newItem.address);
-    cy.get('#postalCode').type(newItem.postalCode);
-    cy.get('form').submit();
+      cy.intercept('POST', '/api/items', {
+        statusCode: 200,
+        body: newItem
+      }).as('addItem');
 
-    cy.get('.add-holiday-form').should('not.exist');
+      cy.get('.add-colab-btn').click();
+      cy.get('#email').type(newItem.email);
+      cy.get('#name').type(newItem.name);
+      cy.get('#address').type(newItem.address);
+      cy.get('#postalCode').type(newItem.postalCode);
+      cy.get('form').submit();
 
-    cy.get('.colaborators-list').should('contain', newItem.name).its('length').as('finalCollaboratorCount');
-    cy.get('@initialCollaboratorCount').then(initialCount => {
-      cy.get('@finalCollaboratorCount').then(finalCount => {
-        expect(finalCount).to.equal(finalCount);})});
+      cy.get('.add-holiday-form').should('not.exist');
 
+      // Ensure the new collaborator is added to the list
+      cy.get('.colaborators-list').should('contain', newItem.name);
+
+      // Reload the count after adding the new collaborator
+      cy.get('.colaborators-list .colaborator-item').its('length').then(finalCount => {
+        // Convert finalCount to a number
+        const finalCountNumber = Number(finalCount);
+
+        // Compare the final count to the initial count plus one
+        expect(finalCountNumber).to.equal(initialCountNumber + 1);
+      });
+    });
   });
+
 
   it('should search for collaborators by name', () => {
     cy.get('.search-bar').type('New');
