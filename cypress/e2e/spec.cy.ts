@@ -2,17 +2,29 @@ describe('Home Component', () => {
   beforeEach(() => {
     cy.intercept('GET', '/api/items', {
       statusCode: 200,
-      body: [
-        {
-          name: 'John Doe',
-          email: 'john@example.com',
-          street: '123 Street',
-          postalCode: '12345'
-        }
-      ]
     }).as('getItems');
     cy.visit('/');
   });
+
+  it('Get number of list', () => {
+
+
+    // Ensure the collaborators list exists
+    cy.get('.colaborators-list').should('exist').its('length').as('initialCollaboratorCount');
+
+    cy.reload();
+
+  // After reloading the page, get the number of items on the collaborators list again
+    cy.get('.colaborators-list').its('length').as('finalCollaboratorCount');
+
+    cy.get('@initialCollaboratorCount').then(initialCount => {
+      cy.get('@finalCollaboratorCount').then(finalCount => {
+        expect(finalCount).to.equal(initialCount);})});
+
+
+
+  });
+
 
   it('should open and close the add collaborator form', () => {
     cy.get('.add-colab-btn').click();
@@ -29,6 +41,7 @@ describe('Home Component', () => {
       address: '123 New Street',
       postalCode: '12345'
     };
+    cy.get('.colaborators-list').should('exist').its('length').as('initialCollaboratorCount');
 
     cy.intercept('POST', '/api/items', {
       statusCode: 200,
@@ -43,7 +56,11 @@ describe('Home Component', () => {
     cy.get('form').submit();
 
     cy.get('.add-holiday-form').should('not.exist');
-    cy.get('.colaborators-list').should('contain', newItem.name);
+
+    cy.get('.colaborators-list').should('contain', newItem.name).its('length').as('finalCollaboratorCount');
+    cy.get('@initialCollaboratorCount').then(initialCount => {
+      cy.get('@finalCollaboratorCount').then(finalCount => {
+        expect(finalCount).to.equal(finalCount);})});
 
   });
 
