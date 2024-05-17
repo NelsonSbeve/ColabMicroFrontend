@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'app-home',
@@ -14,25 +16,23 @@ import { NgToastModule, NgToastService } from 'ng-angular-popup';
 export class HomeComponent {
 
 
-viewProjects(_t68: any) {
-throw new Error('Method not implemented.');
-}
-
-
-
-viewHolidays(_t68: any) {
-throw new Error('Method not implemented.');
-}
   items: any[] = [];
+  associations: any[] = [];
   filteredItems: any[] = [];
+  itemsProject: any[] = [];
+  filteredItemsProject: any[] = [];
   searchTerm: string = '';
+  searchTermProject: string = '';
   showAddColabForm = false;
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 6;
+  showProjectDiv = true;
 
-  constructor(private apiService: ApiService, private toast: NgToastService) {}
+  constructor(private apiService: ApiService, private toast: NgToastService) {
+  }
   ngOnInit() {
     this.fetchItems();
+
   }
 
   get totalPages(): number {
@@ -62,6 +62,87 @@ throw new Error('Method not implemented.');
     }
   }
 
+  viewProjects(_id: any) {
+    this.fetchAssociations(_id);
+
+    this.showProjectDiv = true;
+
+  }
+
+
+  fetchAssociations(_id: any): void {
+  this.apiService.getAssociatedProjects(_id).subscribe((response) => {
+      console.log('Items:', response);
+      this.associations = response as any[];
+      const projectIds: number[] = this.associations.map(association => association.projectID);
+      projectIds.forEach((projectId: number) => {
+        this.loadItemsProject(projectId);
+      });
+      this.showProjectDiv = true;
+    });
+  }
+
+
+
+  viewHolidays(_t68: any) {
+    throw new Error('Method not implemented.');
+    }
+
+    fetchItemsProject(id: number): Observable<any[]> {
+      return this.apiService.getItemsProjeto(id).pipe(
+        map((response: any) => {
+          console.log('Response:', response);
+          // Check if the response is an array
+          if (Array.isArray(response)) {
+            // If it's already an array, return it
+            return response.map(item => ({
+              ...item,
+              startDate: new Date(item.startDate),
+              endDate: new Date(item.endDate)
+            }));
+          } else if (response && typeof response === 'object') {
+            // If it's an object, transform it into an array with a single item
+            const itemArray = [{
+              ...response,
+              startDate: new Date(response.startDate),
+              endDate: new Date(response.endDate)
+            }];
+            return itemArray;
+          } else {
+            // Otherwise, return an empty array or handle the error case as needed
+            console.error('Unexpected response format:', response);
+            return [];
+          }
+        })
+      );
+    }
+
+    loadItemsProject(id: number): void {
+      this.fetchItemsProject(id).subscribe(
+        (items: any[]) => {
+          console.log('Items:', items); // Check the value of 'items'
+          // Ensure items is not undefined before mapping
+          if (Array.isArray(items)) {
+            this.filteredItemsProject = items.map(item => ({
+              ...item,
+              startDate: new Date(item.startDate),
+              endDate: new Date(item.endDate)
+            }));
+          } else {
+            console.error('Expected an array of items');
+          }
+        },
+        (error) => {
+          console.error('Error fetching items:', error);
+        }
+      );
+    }
+
+    searchProjects() {
+      this.filteredItemsProject = this.itemsProject.filter(item =>
+        item.name.toLowerCase().includes(this.searchTermProject.toLowerCase())
+      );
+    }
 
 
   fetchItems() {

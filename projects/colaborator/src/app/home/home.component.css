@@ -178,7 +178,7 @@ input[type="submit"]:hover, .fetch-button:hover {
 .bottom-half-container {
   flex: 1; /* Take up remaining vertical space */
    /* Enable vertical scrolling if needed */
-  padding: 10px; /* Add padding for spacing */
+  padding: 15px; /* Add padding for spacing */
 }
 
 /* Additional styles for the bottom half container */
@@ -246,4 +246,25 @@ input[type="submit"]:hover, .fetch-button:hover {
   margin: 0 10px;
   font-weight: bold;
   color: #333;
+}
+
+.projects-list {
+  margin-top: 20px;
+}
+
+.projects-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.project-item {
+  margin-bottom: 10px;
+}
+
+.project-name {
+  font-weight: bold;
+}
+
+.project-startDate, .project-endDate {
+  margin-left: 10px;
 }

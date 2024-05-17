@@ -63,8 +63,8 @@
             <td>{{ item.postalCode }}</td>
             <td>
               <!-- Buttons for Holidays and Projects -->
-              <button (click)="viewHolidays(item)" class="buttonHoliday">Holidays</button>
-              <button (click)="viewProjects(item)" style="margin-left: 20px;" class="buttonProject">Projects</button>
+              <button (click)="viewHolidays(item.id)" class="buttonHoliday">Holidays</button>
+              <button (click)="viewProjects(item.id)" style="margin-left: 20px;" class="buttonProject">Projects</button>
             </td>
           </tr>
         </tbody>
@@ -76,12 +76,40 @@
 
 
   <div class="bottom-half-container">
-    <!-- Pagination -->
-    <!-- Your pagination code here -->
+    <div *ngIf="showProjectDiv" class="ProjectDiv">
 
-    <!-- Container for additional content -->
-    <div class="additional-content-container">
-      <!-- Additional content here -->
+          <h2>Projects</h2>
+          <!-- Search bar -->
+          <input type="text" class="search-barProject" placeholder="Search projects" [(ngModel)]="searchTermProject" (input)="searchProjects()">
+          <!-- Projects list -->
+
+          <div *ngIf="filteredItemsProject && filteredItemsProject.length > 0">
+            <div *ngFor="let project of filteredItemsProject" class="project">
+              <div *ngIf="project.name">
+                <strong>Name:</strong> {{ project.name }}
+              </div>
+              <div *ngIf="project.startDate">
+                <strong>Start Date:</strong> {{ project.startDate | date:'shortDate' }}
+              </div>
+              <div *ngIf="project.endDate">
+                <strong>End Date:</strong> {{ project.endDate | date:'shortDate' }}
+              </div>
+              <hr>
+            </div>
+          </div>
+          <div *ngIf="!filteredItemsProject || filteredItemsProject.length === 0">
+            No projects available.
+          </div>
+
+
+
+      </div>
+
+    <div class="HolidayDiv">
+
+
     </div>
+
+
   </div>
 </div>
