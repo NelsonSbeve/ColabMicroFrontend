@@ -21,12 +21,13 @@ export class HomeComponent {
   filteredItems: any[] = [];
   itemsProject: any[] = [];
   filteredItemsProject: any[] = [];
+  filteredItemsProject2: any[] = [];
   searchTerm: string = '';
   searchTermProject: string = '';
   showAddColabForm = false;
   currentPage: number = 1;
   itemsPerPage: number = 6;
-  showProjectDiv = true;
+  showProjectDiv = false;
 
   constructor(private apiService: ApiService, private toast: NgToastService) {
   }
@@ -63,8 +64,9 @@ export class HomeComponent {
   }
 
   viewProjects(_id: any) {
+    this.filteredItemsProject = [];
     this.fetchAssociations(_id);
-
+    console.log('Response:', this.filteredItemsProject);
     this.showProjectDiv = true;
 
   }
@@ -72,20 +74,42 @@ export class HomeComponent {
 
   fetchAssociations(_id: any): void {
   this.apiService.getAssociatedProjects(_id).subscribe((response) => {
-      console.log('Items:', response);
       this.associations = response as any[];
-      const projectIds: number[] = this.associations.map(association => association.projectID);
+      const projectIds: number[] = this.associations.map(association => association.projectId);
       projectIds.forEach((projectId: number) => {
         this.loadItemsProject(projectId);
       });
       this.showProjectDiv = true;
     });
+
   }
 
 
 
   viewHolidays(_t68: any) {
     throw new Error('Method not implemented.');
+    }
+
+    loadItemsProject(id: number): void {
+      this.fetchItemsProject(id).subscribe(
+        (items: any[]) => {
+          console.log('Items:', items); // Check the value of 'items'
+          // Ensure items is not undefined before mapping
+          if (Array.isArray(items)) {
+            // Append the items to filteredItemsProject instead of overwriting
+            this.filteredItemsProject = [...this.filteredItemsProject, ...items.map(item => ({
+              ...item,
+              startDate: new Date(item.startDate),
+              endDate: new Date(item.endDate)
+            }))];
+          } else {
+            console.error('Expected an array of items');
+          }
+        },
+        (error) => {
+          console.error('Error fetching items:', error);
+        }
+      );
     }
 
     fetchItemsProject(id: number): Observable<any[]> {
@@ -117,26 +141,7 @@ export class HomeComponent {
       );
     }
 
-    loadItemsProject(id: number): void {
-      this.fetchItemsProject(id).subscribe(
-        (items: any[]) => {
-          console.log('Items:', items); // Check the value of 'items'
-          // Ensure items is not undefined before mapping
-          if (Array.isArray(items)) {
-            this.filteredItemsProject = items.map(item => ({
-              ...item,
-              startDate: new Date(item.startDate),
-              endDate: new Date(item.endDate)
-            }));
-          } else {
-            console.error('Expected an array of items');
-          }
-        },
-        (error) => {
-          console.error('Error fetching items:', error);
-        }
-      );
-    }
+
 
     searchProjects() {
       this.filteredItemsProject = this.itemsProject.filter(item =>

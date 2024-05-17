@@ -10,17 +10,17 @@ export class ApiService {
   private apiUrl2 = 'https://localhost:5011';
   private apiUrlprojeto = 'http://localhost:5188';
   private apiUrlprojeto2 = 'http://localhost:5186';
-  private apiUrlassociation = 'http://localhost:5186';
+  private apiUrlassociation = 'https://localhost:5041';
 
 
 
   constructor(private http: HttpClient) {}
 
 
-  getAssociatedProjects(id: any) {
-    return this.http.get(`${this.apiUrl}/api/Association/Colaborator${id}`);
+  getAssociatedProjects(id: number) {
+    return this.http.get(`${this.apiUrlassociation}/api/Association/colaborator/${id}`);
   }
-  
+
   // Example GET request
   getItems() {
     return this.http.get(`${this.apiUrl}/api/Colaborator`);

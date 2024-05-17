@@ -83,19 +83,28 @@
           <input type="text" class="search-barProject" placeholder="Search projects" [(ngModel)]="searchTermProject" (input)="searchProjects()">
           <!-- Projects list -->
 
-          <div *ngIf="filteredItemsProject && filteredItemsProject.length > 0">
-            <div *ngFor="let project of filteredItemsProject" class="project">
-              <div *ngIf="project.name">
-                <strong>Name:</strong> {{ project.name }}
-              </div>
-              <div *ngIf="project.startDate">
-                <strong>Start Date:</strong> {{ project.startDate | date:'shortDate' }}
-              </div>
-              <div *ngIf="project.endDate">
-                <strong>End Date:</strong> {{ project.endDate | date:'shortDate' }}
-              </div>
-              <hr>
-            </div>
+          <div *ngIf="filteredItemsProject.length > 0" class="colaborators-list">
+            <table>
+              <!-- Table headers -->
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>StartDate</th>
+                  <th>EndDate</th>
+                </tr>
+              </thead>
+              <!-- Table body -->
+              <tbody>
+                <!-- Loop through the data for the current page -->
+                <tr *ngFor="let item of filteredItemsProject" class="colaborator-item">
+                  <td class="colaborator-name">{{ item.name }}</td>
+                  <td class="colaborator-email">{{ item.startDate }}</td>
+                  <td>{{ item.endDate }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+
           </div>
           <div *ngIf="!filteredItemsProject || filteredItemsProject.length === 0">
             No projects available.
