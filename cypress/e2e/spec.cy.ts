@@ -100,3 +100,54 @@ describe('Home Component', () => {
   //   cy.get('@viewProjects').should('have.been.called');
   // });
 });
+
+describe('Projeto Component', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '/api/projects', {
+      statusCode: 200,
+      body: []
+    }).as('getProjects');
+
+    cy.intercept('GET', '/api/projects/1/items', {
+      statusCode: 200,
+      body: [
+        { id: 1, name: 'Project 1', startDate: '2023-01-01', endDate: '2023-12-31' },
+        { id: 2, name: 'Project 2', startDate: '2023-01-01', endDate: '2023-12-31' }
+      ]
+    }).as('getProjectItems');
+
+    cy.visit('/');
+  });
+
+  it('should fetch and display project items on load', () => {
+    cy.get('.buttonProject').first().click();
+    cy.wait('@getProjects');
+    cy.wait('@getProjectItems');
+
+    cy.get('.colaborators-list').should('exist');
+    cy.get('.colaborator-item').should('have.length', 2);
+  });
+
+  it('should search projects by name', () => {
+    cy.get('.buttonProject').first().click();
+    cy.wait('@getProjects');
+    cy.wait('@getProjectItems');
+
+    cy.get('.search-barProject').type('Project 1');
+    cy.get('.colaborator-item').should('have.length', 1);
+    cy.get('.colaborator-item').first().should('contain', 'Project 1');
+  });
+
+  it('should handle empty project list', () => {
+    cy.intercept('GET', '/api/projects/1/items', {
+      statusCode: 200,
+      body: []
+    }).as('getEmptyProjectItems');
+
+    cy.get('.buttonProject').first().click();
+    cy.wait('@getEmptyProjectItems');
+
+    cy.get('.colaborators-list').should('not.exist');
+    cy.contains('No projects available.').should('exist');
+  });
+});
