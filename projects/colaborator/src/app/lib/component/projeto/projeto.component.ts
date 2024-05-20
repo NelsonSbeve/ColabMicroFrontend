@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges, output } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../service/api.service';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProjectService } from '../../service/project.service';
 
 @Component({
   selector: 'app-projeto',
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProjetoComponent {
 
-  constructor(private apiService: ApiService, private toast: NgToastService) {
+  constructor(private apiService: ApiService, private toast: NgToastService, private projetoService: ProjectService) {
   }
   @Output() ProjetoLista = new EventEmitter();
   @Input() id: any;
@@ -72,7 +73,7 @@ export class ProjetoComponent {
     }
 
     fetchItemsProject(id: number): Observable<any[]> {
-      return this.apiService.getItemsProjeto(id).pipe(
+      return this.projetoService.getItemsProjeto(id).pipe(
         map((response: any) => {
           console.log('Response:', response);
           // Check if the response is an array

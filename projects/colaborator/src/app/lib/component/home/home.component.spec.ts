@@ -1,5 +1,5 @@
 import { HomeComponent } from './home.component';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../service/api.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { NgToastComponent, NgToastService } from 'ng-angular-popup';
