@@ -248,23 +248,3 @@ input[type="submit"]:hover, .fetch-button:hover {
   color: #333;
 }
 
-.projects-list {
-  margin-top: 20px;
-}
-
-.projects-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.project-item {
-  margin-bottom: 10px;
-}
-
-.project-name {
-  font-weight: bold;
-}
-
-.project-startDate, .project-endDate {
-  margin-left: 10px;
-}
