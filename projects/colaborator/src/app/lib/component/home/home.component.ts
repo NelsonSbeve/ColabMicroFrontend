@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { ProjetoComponent } from "../projeto/projeto.component";
 import { HolidayComponent } from "../holiday/holiday.component";
+import { ColaboratorService } from '../../service/colaborator.service';
+import { HolidayService } from '../../service/holiday.service';
 
 @Component({
     selector: 'app-home',
@@ -18,6 +20,7 @@ import { HolidayComponent } from "../holiday/holiday.component";
 export class HomeComponent {
   _colabId:number | undefined
   _colabName: string | undefined
+  colaboratorsMap: Map<number, string> = new Map()
   id: number | undefined;
   items: any[] = [];
   associations: any[] = [];
@@ -34,10 +37,19 @@ export class HomeComponent {
   showAddHolidayForm: boolean = false;
   showHolidayDiv = false;
 
-  constructor(private apiService: ApiService, private toast: NgToastService) {
-  }
+  constructor(
+    private apiService: ApiService, 
+    private toast: NgToastService, 
+    private holidayService: HolidayService,
+    private colaboratorService: ColaboratorService
+  ) {}
   ngOnInit() {
     this.fetchItems();
+    this.colaboratorService.getColaborators().subscribe(colaborators => {
+      colaborators.forEach(colab => {
+        this.colaboratorsMap.set(colab.id, colab.name);
+      });
+    });
   }
 
   get totalPages(): number {
@@ -68,15 +80,27 @@ export class HomeComponent {
   }
 
   viewProjects(_id: any) {
-    this.showProjectDiv = false;
     this.id = _id;
     this.showProjectDiv = true;
+    this.showHolidayDiv = false;
   }
 
   viewHolidays(_colabId: number, _colabName: string) {
     this._colabId = _colabId;
     this._colabName = _colabName;
     this.showHolidayDiv = true;
+    this.showProjectDiv = false;
+    }
+
+    filterByHolidays(nDays: string) {
+      const days = parseInt(nDays, 10);
+      if (!nDays || isNaN(days) || days <= 0) {
+        this.filteredItems = this.items;
+      } else {
+        this.holidayService.getColaboratorsXDays(days).subscribe(ids => {
+          this.filteredItems = this.items.filter(item => ids.includes(item.id));
+        });
+      }
     }
 
   fetchItems() {

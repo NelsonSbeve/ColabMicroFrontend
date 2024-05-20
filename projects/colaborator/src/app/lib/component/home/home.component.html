@@ -31,6 +31,10 @@
   <div class="container2">
     <input type="text" class="search-bar" placeholder="Search collaborators by name" [(ngModel)]="searchTerm" (input)="searchCollaborators()">
   </div>
+  <div class="containerNumDias">
+    <input type="number" placeholder="nº dias de férias" #nDays (input)="filterByHolidays(nDays.value)">
+  </div>
+  
   <div class="pagination">
     <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
     <span>{{ currentPage }} / {{ totalPages }}</span>
