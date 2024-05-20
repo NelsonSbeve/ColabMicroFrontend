@@ -14,6 +14,9 @@ export class ProjectService {
   getItemsProjeto(id: number) {
     return this.http.get(`${this.apiUrlprojeto2}/api/Project/${id}`);
   }
+  getItemsAllProjetos() {
+    return this.http.get(`${this.apiUrlprojeto2}/api/Project`);
+  }
   createItemProjeto(item: any) {
     return this.http.post(`${this.apiUrlprojeto}/api/Project`, item);
   }

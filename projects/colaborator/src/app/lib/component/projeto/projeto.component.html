@@ -1,35 +1,59 @@
+<h2>Projects</h2>
 
+<!-- Controls (Search bar and button) -->
+<div class="controls">
+  <input type="text" class="search-bar-project" placeholder="Search projects" [(ngModel)]="searchTermProject" (input)="searchProjects()">
+  <button class="add-project-btn" (click)="showAddProjForm = true">Adicionar Projeto ao colaborador</button>
+</div>
 
-  <h2>Projects</h2>
-  <!-- Search bar -->
-  <input type="text" class="search-barProject" placeholder="Search projects" [(ngModel)]="searchTermProject" (input)="searchProjects()">
-  <!-- Projects list -->
-
-  <div *ngIf="filteredItemsProject.length > 0" class="colaborators-list">
-    <table>
-      <!-- Table headers -->
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>StartDate</th>
-          <th>EndDate</th>
-        </tr>
-      </thead>
-      <!-- Table body -->
-      <tbody>
-        <!-- Loop through the data for the current page -->
-        <tr *ngFor="let item of filteredItemsProject" class="colaborator-item">
-          <td class="colaborator-name">{{ item.name }}</td>
-          <td class="colaborator-email">{{ item.startDate | date }}</td>
-          <td>{{ item.endDate | date }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-
+<!-- Form Modal -->
+<div *ngIf="showAddProjForm" class="add-project-form">
+  <div class="form-overlay" (click)="showAddProjForm = false"></div>
+  <div class="form-container">
+    <div class="box">
+      <span class="close" (click)="showAddProjForm = false">&times;</span>
+      <form (submit)="createNewItem(form.value)" #form="ngForm">
+        <label for="selectedProject">Select a Collaborator:</label>
+        <select [(ngModel)]="selectedProject" name="selectedProject" required>
+          <option *ngFor="let Proj of AllProjs" [ngValue]="Proj">{{ Proj.id }} - {{ Proj.name }}</option>
+        </select>
+        <br>
+        <label for="id">ID: {{ id }}</label>
+        <br>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required ngModel>
+        <br>
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required ngModel>
+        <br>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
   </div>
-  <div *ngIf="!filteredItemsProject || filteredItemsProject.length === 0">
-    No projects available.
-  </div>
+</div>
 
-
+<!-- Projects list -->
+<div *ngIf="filteredItemsProject.length > 0" class="projects-list">
+  <table>
+    <!-- Table headers -->
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <!-- Table body -->
+    <tbody>
+      <!-- Loop through the data for the current page -->
+      <tr *ngFor="let item of filteredItemsProject" class="project-item">
+        <td class="project-name">{{ item.name }}</td>
+        <td class="project-start-date">{{ item.startDate | date }}</td>
+        <td class="project-end-date">{{ item.endDate | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="!filteredItemsProject || filteredItemsProject.length === 0" class="no-projects">
+  No projects available.
+</div>

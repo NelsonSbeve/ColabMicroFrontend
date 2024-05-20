@@ -1,10 +1,11 @@
+import { ProjectService } from './../../service/project.service';
 import { Component, EventEmitter, Input, Output, SimpleChanges, output } from '@angular/core';
 import { ApiService } from '../../service/api.service';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProjectService } from '../../service/project.service';
+
 
 @Component({
   selector: 'app-projeto',
@@ -20,15 +21,27 @@ export class ProjetoComponent {
   @Output() ProjetoLista = new EventEmitter();
   @Input() id: any;
   itemsProject: any[] = [];
+  AllProjs: any[] = [];
   filteredItemsProject: any[] = [];
   associations: any[] = [];
   searchTermProject: string = '';
+  showAddProjForm = false;
+  selectedProject: any;
+
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id'] && changes['id'].currentValue) {
       this.fetchAssociations(this.id);
     }
+    this.fetchAllItems();
+  }
+
+  fetchAllItems() {
+    this.projetoService.getItemsAllProjetos().subscribe((response) => {
+      console.log('Items:', response);
+      this.AllProjs = response as any[];
+    });
   }
 
   fetchAssociations(_id: any): void {
@@ -58,6 +71,11 @@ export class ProjetoComponent {
           if (Array.isArray(items)) {
             // Append the items to filteredItemsProject instead of overwriting
             this.filteredItemsProject = [...this.filteredItemsProject, ...items.map(item => ({
+              ...item,
+              startDate: new Date(item.startDate),
+              endDate: new Date(item.endDate)
+            }))];
+            this.itemsProject = [...this.itemsProject, ...items.map(item => ({
               ...item,
               startDate: new Date(item.startDate),
               endDate: new Date(item.endDate)
@@ -107,6 +125,24 @@ export class ProjetoComponent {
       this.filteredItemsProject = this.itemsProject.filter(item =>
         item.name.toLowerCase().includes(this.searchTermProject.toLowerCase())
       );
+      console.log(this.filteredItemsProject);
+      console.log(this.itemsProject);
+    }
+    hideAddProjPopup() {
+      this.showAddProjForm = false;
+    }
+
+    createNewItem(formData: any) {
+      const newItem = {
+        ColabId: this.id,
+        ProjectId: formData.Pid,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+      };
+      this.projetoService.createItemProjeto(newItem).subscribe((response) => {
+        console.log('Created item:', response);
+        // Handle success or any UI updates here
+      });
     }
 
 }

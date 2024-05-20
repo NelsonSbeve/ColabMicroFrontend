@@ -174,12 +174,7 @@ input[type="submit"]:hover, .fetch-button:hover {
   overflow: hidden; /* Hide overflow to prevent double scrollbars */
 }
 
-.top-half-container,
-.bottom-half-container {
-  flex: 1; /* Take up remaining vertical space */
-   /* Enable vertical scrolling if needed */
-  padding: 15px; /* Add padding for spacing */
-}
+
 
 /* Additional styles for the bottom half container */
 .bottom-half-container {
