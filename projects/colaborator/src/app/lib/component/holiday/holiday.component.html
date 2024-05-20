@@ -1,1 +1,41 @@
-<p>holiday works!</p>
+
+<h2 style="text-align: center">{{_colabName}}</h2>
+<div>
+    <div  *ngIf="showAddHolidayForm"  class="add-holiday-form">
+        <div class="form-overlay"></div> 
+        <div class="form-container">
+            <span class="close"  (click)="showAddHolidayForm = false">&times;</span>
+            <app-holiday-add [_colabName]="_colabName" [_colabId]="_colabId" (holidayAdded)="onHolidayAdded($event)"></app-holiday-add>
+        </div>
+    </div>
+
+    <div class="container">
+        <button class="add-holiday-btn"  (click)="showAddHolidayForm = true">Add Holiday</button>
+        <div class="container2">
+            <input type="number" placeholder="nº dias de férias" #nDays>
+            <button class="action2" (click)="getRouterLink(nDays.value)">Procurar Colaboradores</button>
+        </div>
+    </div>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Data de Início
+                <input type="date" [(ngModel)]="startDate" (change)="filterHolidays()">
+            </th>
+            <th>
+                Data de Fim
+                <input type="date" [(ngModel)]="endDate" (change)="filterHolidays()">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (holi of filteredHolidays; track $index) {
+        <tr>
+            <td>{{ holi._holidayPeriod.startDate| date }}</td>
+            <td>{{ holi._holidayPeriod.endDate | date}}</td>
+        </tr>
+        }
+    </tbody>
+</table>

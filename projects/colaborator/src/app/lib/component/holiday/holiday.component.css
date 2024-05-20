@@ -1,0 +1,151 @@
+/* Style for the container div */
+* {
+    font-family: sans-serif;
+}
+
+.container {
+    margin: 15px;
+    display: flex;
+    justify-content: space-between;
+    /* Align items to opposite ends */
+}
+
+.add-holiday-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    /* Blue color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.container2 {
+    display: flex;
+}
+
+.container2 input[type="number"] {
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    /* Add some space between input and button */
+}
+
+.action2 {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    /* Blue color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action2:hover {
+    background-color: #2980b9;
+    /* Darker blue color on hover */
+}
+
+
+button.action {
+    margin: 0;
+    padding: 10px 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style for the table */
+table {
+    margin-top: 1em;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Style for table header */
+th {
+    background-color: #f2f2f2;
+    color: black;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+/* Style for table cells */
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* Style for table rows */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect on table rows */
+tr:hover {
+    background-color: #ddd;
+}
+
+/* Estilos para o formulário de adicionar férias */
+.add-holiday-form {
+    position: fixed;
+    /* Posição fixa para sobrepor o conteúdo */
+    z-index: 9999;
+    /* Coloca o formulário sobre o conteúdo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* Centraliza o conteúdo verticalmente */
+    align-items: center;
+    /* Centraliza o conteúdo verticalmente */
+}
+
+.form-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo escuro com transparência */
+}
+
+.form-container {
+    position: relative;
+    /* Relativo ao container pai (.add-holiday-form) */
+    margin: auto;
+    /* Centraliza horizontalmente */
+    background-color: white;
+    padding: 40px;
+    /* Aumenta o padding para aumentar o tamanho da caixa */
+    border-radius: 10px;
+    width: 80%;
+    /* Ajusta a largura da caixa */
+    max-width: 600px;
+    /* Define a largura máxima da caixa */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #888;
+}
+
+.close:hover {
+    color: black;
+}
