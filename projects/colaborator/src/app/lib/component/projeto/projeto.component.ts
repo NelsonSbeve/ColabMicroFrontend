@@ -44,12 +44,6 @@ export class ProjetoComponent {
 
   }
 
-
-
-  viewHolidays(_t68: any) {
-    throw new Error('Method not implemented.');
-    }
-
     loadItemsProject(id: number): void {
       this.fetchItemsProject(id).subscribe(
         (items: any[]) => {

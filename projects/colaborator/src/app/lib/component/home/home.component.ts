@@ -6,16 +6,18 @@ import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { ProjetoComponent } from "../projeto/projeto.component";
+import { HolidayComponent } from "../holiday/holiday.component";
 
 @Component({
     selector: 'app-home',
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.css',
-    imports: [CommonModule, FormsModule, NgToastModule, ProjetoComponent]
+    imports: [CommonModule, FormsModule, NgToastModule, ProjetoComponent, HolidayComponent]
 })
 export class HomeComponent {
-
+  _colabId:number | undefined
+  _colabName: string | undefined
   id: number | undefined;
   items: any[] = [];
   associations: any[] = [];
@@ -29,12 +31,13 @@ export class HomeComponent {
   currentPage: number = 1;
   itemsPerPage: number = 6;
   showProjectDiv = false;
+  showAddHolidayForm: boolean = false;
+  showHolidayDiv = false;
 
   constructor(private apiService: ApiService, private toast: NgToastService) {
   }
   ngOnInit() {
     this.fetchItems();
-
   }
 
   get totalPages(): number {
@@ -70,13 +73,11 @@ export class HomeComponent {
     this.showProjectDiv = true;
   }
 
-
-
-  viewHolidays(_t68: any) {
-    throw new Error('Method not implemented.');
+  viewHolidays(_colabId: number, _colabName: string) {
+    this._colabId = _colabId;
+    this._colabName = _colabName;
+    this.showHolidayDiv = true;
     }
-
-
 
   fetchItems() {
     if (this.apiService) {
@@ -96,6 +97,7 @@ export class HomeComponent {
   hideAddColabPopup() {
     this.showAddColabForm = false;
   }
+
   createNewItem(formData: any) {
     const newItem = {
       email: formData.email,
@@ -126,6 +128,7 @@ export class HomeComponent {
     });
   }
 }
+
 function wait(ms: number): Promise<void> {
   return new Promise(resolve => {
     setTimeout(resolve, ms);

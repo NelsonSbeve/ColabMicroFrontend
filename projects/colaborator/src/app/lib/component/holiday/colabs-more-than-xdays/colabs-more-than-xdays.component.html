@@ -1,0 +1,26 @@
+@if (colaboratorsXDays.length > 0) {
+<h2> Dias de Férias Superiores a {{nDays}} Dias</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Colaborador</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (colab of colaboratorsXDays; track $index) {
+        <tr>
+            <td>{{ colab.id }}</td>
+            <td>{{ colab.name }}</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+@else {
+    <h3>Não há colaboradores.</h3>
+}
+
+
+<button  class="action" [routerLink]="['/Holiday']">Voltar</button>
