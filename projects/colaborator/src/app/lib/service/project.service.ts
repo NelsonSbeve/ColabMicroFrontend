@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 export class ProjectService {
   private apiUrlprojeto = 'https://localhost:7285';
   private apiUrlprojeto2 = 'https://localhost:7283';
+  private apiUrlassociation = 'https://localhost:7283';
+
 
   constructor(private http: HttpClient) {}
 
@@ -19,5 +21,8 @@ export class ProjectService {
   }
   createItemProjeto(item: any) {
     return this.http.post(`${this.apiUrlprojeto}/api/Project`, item);
+  }
+  createItemAssociation(item: any) {
+    return this.http.post(`${this.apiUrlassociation}/api/Association`, item);
   }
 }

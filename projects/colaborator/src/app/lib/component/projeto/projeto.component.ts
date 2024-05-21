@@ -139,7 +139,7 @@ export class ProjetoComponent {
         startDate: formData.startDate,
         endDate: formData.endDate,
       };
-      this.projetoService.createItemProjeto(newItem).subscribe((response) => {
+      this.projetoService.createItemAssociation(newItem).subscribe((response) => {
         console.log('Created item:', response);
         // Handle success or any UI updates here
       });
