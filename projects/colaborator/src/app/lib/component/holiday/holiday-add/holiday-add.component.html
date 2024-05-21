@@ -1,0 +1,27 @@
+<div class="form">
+    <div>
+        <h1>Adicionar Holiday</h1>
+    </div>
+    <div>
+        <label for="new-holiColab">Colaborador:</label>
+        <input id="new-holiColab" [value]="_colabName" disabled>
+    </div>
+    
+
+    <div>
+        <label for="new-holiStart">Data de Início:</label>
+        <input type="date" id="new-holiStart" #holiStart required>
+    </div>
+
+    <div>
+        <label for="new-holiEnd">Data de Fim:</label>
+        <input type="date" id="new-holiEnd" #holiEnd required>
+    </div>
+
+    <div>
+        <button type="submit"
+            (click)="add(_colabId, holiStart.value, holiEnd.value);">
+            Adicionar
+        </button>
+    </div>
+</div>

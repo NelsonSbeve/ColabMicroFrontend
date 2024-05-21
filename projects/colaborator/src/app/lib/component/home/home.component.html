@@ -31,6 +31,10 @@
   <div class="container2">
     <input type="text" class="search-bar" placeholder="Search collaborators by name" [(ngModel)]="searchTerm" (input)="searchCollaborators()">
   </div>
+  <div class="containerNumDias">
+    <input type="number" placeholder="nº dias de férias" #nDays (input)="filterByHolidays(nDays.value)">
+  </div>
+  
   <div class="pagination">
     <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
     <span>{{ currentPage }} / {{ totalPages }}</span>
@@ -63,7 +67,7 @@
             <td>{{ item.postalCode }}</td>
             <td>
               <!-- Buttons for Holidays and Projects -->
-              <button (click)="viewHolidays(item.id)" class="buttonHoliday">Holidays</button>
+              <button (click)="viewHolidays(item.id, item.name)" class="buttonHoliday">Holidays</button>
               <button (click)="viewProjects(item.id)" style="margin-left: 20px;" class="buttonProject">Projects</button>
             </td>
           </tr>
@@ -80,11 +84,8 @@
       <app-projeto  [id] = "id" (ProjetoLista)="viewProjects($event)"></app-projeto>
     </div>
 
-    <div class="HolidayDiv">
-
-
+    <div class="HolidayDiv" *ngIf="showHolidayDiv">
+      <app-holiday [_colabId] = "_colabId" [_colabName] = "_colabName"></app-holiday>
     </div>
-
-
   </div>
 </div>
