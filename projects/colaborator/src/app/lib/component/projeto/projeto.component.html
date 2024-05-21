@@ -13,12 +13,12 @@
     <div class="box">
       <span class="close" (click)="showAddProjForm = false">&times;</span>
       <form (submit)="createNewItem(form.value)" #form="ngForm">
-        <label for="selectedProject">Select a Collaborator:</label>
+        <label for="selectedProject">Select a Project:</label>
         <select [(ngModel)]="selectedProject" name="selectedProject" required>
           <option *ngFor="let Proj of AllProjs" [ngValue]="Proj">{{ Proj.id }} - {{ Proj.name }}</option>
         </select>
         <br>
-        <label for="id">ID: {{ id }}</label>
+        <label for="id">ID: {{ id }}</label>  
         <br>
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate" name="startDate" required ngModel>

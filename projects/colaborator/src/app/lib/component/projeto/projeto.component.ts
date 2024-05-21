@@ -129,10 +129,11 @@ export class ProjetoComponent {
     createNewItem(formData: any) {
       const newItem = {
         ColabId: this.id,
-        ProjectId: formData.Pid,
+        ProjectId: formData.selectedProject.id,
         startDate: formData.startDate,
         endDate: formData.endDate,
       };
+      console.log(newItem);
       this.projetoService.createItemAssociation(newItem).subscribe((response) => {
         console.log('Created item:', response);
         // Handle success or any UI updates here
