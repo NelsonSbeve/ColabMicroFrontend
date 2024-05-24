@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -25,6 +25,14 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
+
+    - name: Install XVFB
+      run: sudo apt-get install xvfb
+
+    - name: Start XVFB
+      run: |
+        /usr/bin/Xvfb :99 -screen 0 1280x1024x24 &
+        export DISPLAY=:99
 
     - name: Build Angular application
       run: npm run build --if-present
