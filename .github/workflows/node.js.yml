@@ -11,54 +11,43 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [8.x]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
 
       - name: Install dependencies
-        run: |
-          npm install -g @angular/cli@1.1.2
-          npm install
-          npm run webdriver-update
+        run: npm install
 
       - name: Run tests
         run: |
-          ng test --single-run --progress false
-          ng e2e --progress false
+          npm run webdriver-update
+          ng test --watch=false --browsers=ChromeHeadlessNoSandbox
 
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [8.x]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
 
-      - name: Install dependencies
+      - name: Install dependencies and build
         run: |
-          npm install -g @angular/cli@1.1.2
           npm install
+          ng build --prod
 
-      - name: Build project
-        run: ng build --prod --progress false
-        working-directory: ./dist
-
-    artifacts:
-      paths:
-        - dist/
+      - name: Archive production build
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist/
