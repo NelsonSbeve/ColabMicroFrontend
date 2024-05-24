@@ -29,6 +29,8 @@ test:
   script:
     - ng test --single-run --progress false
     - ng e2e --progress false
+  only:
+    - master
 
 build:
   stage: build
