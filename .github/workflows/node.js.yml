@@ -1,53 +1,31 @@
-name: Angular CI
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     branches:
-      - main
+      - '**'
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: '18.19'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: |
-          npm run webdriver-update
-          ng test --watch=false --browsers=ChromeHeadlessNoSandbox
-
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-
-      - name: Install dependencies and build
-        run: |
-          npm install
-          ng build --prod
-
-      - name: Archive production build
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist/
+      - name: Run unit tests
+        run: ng test --watch=false --browsers=ChromeHeadless
