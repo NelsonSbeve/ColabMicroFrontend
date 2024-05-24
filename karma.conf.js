@@ -23,7 +23,18 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['Puppeteer'],
+    customLaunchers: {
+      Puppeteer: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox', // required for running as root user
+          '--disable-setuid-sandbox',
+          '--disable-gpu',
+          '--disable-dev-shm-usage'
+        ]
+      }
+    },
     singleRun: false,
     restartOnFileChange: true
   });
