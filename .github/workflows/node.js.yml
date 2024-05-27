@@ -12,7 +12,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     container:
-      image: weltn24/up-docker-node-chrome-headless
+      image: cypress/browsers:node18.19.1-chrome106-ff102
 
     steps:
       - name: Checkout code
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18.19'
+          node-version: '18.19.1' # Ensure the version matches the one in the container
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
