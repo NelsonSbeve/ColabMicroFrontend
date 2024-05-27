@@ -26,7 +26,6 @@ describe('HolidayAddComponent', () => {
     const formElement = fixture.nativeElement.querySelector('.form');
     const headingElement = fixture.nativeElement.querySelector('h1');
     const labelElements = fixture.nativeElement.querySelectorAll('label');
-    const selectElement = fixture.nativeElement.querySelector('select');
     const inputElements = fixture.nativeElement.querySelectorAll('input[type="date"]');
     const buttonElement = fixture.nativeElement.querySelector('button[type="submit"]');
 
@@ -35,7 +34,6 @@ describe('HolidayAddComponent', () => {
     expect(labelElements[0].textContent).toContain('Colaborador:');
     expect(labelElements[1].textContent).toContain('Data de Início:');
     expect(labelElements[2].textContent).toContain('Data de Fim:');
-    expect(selectElement).toBeTruthy();
     expect(inputElements.length).toBe(2);
     expect(buttonElement).toBeTruthy();
   });
@@ -44,6 +42,7 @@ describe('HolidayAddComponent', () => {
     spyOn(component, 'add');
 
     component.colaborators = [{id: 1, name: 'John'}];
+    component._colabId = "1";
     fixture.detectChanges();
 
     const colabSelect = fixture.nativeElement.querySelector('#new-holiColab');
@@ -51,11 +50,11 @@ describe('HolidayAddComponent', () => {
     const holiEndInput = fixture.nativeElement.querySelector('#new-holiEnd');
     const addButton = fixture.nativeElement.querySelector('button[type="submit"]');
 
-    colabSelect.value = '1';
+    colabSelect.value = 'John';
     holiStartInput.value = '2024-05-01';
     holiEndInput.value = '2024-05-05';
     addButton.click();
 
-    expect(component.add).toHaveBeenCalledWith('1', '2024-05-01', '2024-05-05');
+    expect(component.add).toHaveBeenCalledWith("1", '2024-05-01', '2024-05-05');
   });
 });

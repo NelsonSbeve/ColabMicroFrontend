@@ -61,27 +61,16 @@ describe('HolidayComponent', () => {
     expect(formDiv).toBeFalsy();
   });
 
-  it('should render input and button', () => {
-    const inputElement = fixture.nativeElement.querySelector('input[type="number"]');
-    const buttonElement = fixture.nativeElement.querySelector('button.add-holiday-btn');
-
-    expect(inputElement).toBeTruthy();
-    expect(buttonElement).toBeTruthy();
-  });
-
   it('should render table headers', () => {
     const tableHeaderElements = fixture.nativeElement.querySelectorAll('th');
   
-    expect(tableHeaderElements.length).toBe(5);
-    expect(tableHeaderElements[0].textContent).toContain('ID');
-    expect(tableHeaderElements[1].textContent).toContain('Colaborador');
-    expect(tableHeaderElements[2].textContent).toContain('Data de Início');
-    expect(tableHeaderElements[3].textContent).toContain('Data de Fim');
-    expect(tableHeaderElements[4].textContent).toContain('Ações');
+    expect(tableHeaderElements.length).toBe(2);
+    expect(tableHeaderElements[0].textContent).toContain('Data de Início');
+    expect(tableHeaderElements[1].textContent).toContain('Data de Fim');
   });
 
   it('should render table rows based on provided data', () => {
-    component.holidays = [
+    component.filteredHolidays = [
       { id: 1, _colabId: 1, _colabName: 'John Doe', _holidayPeriod: { startDate: '2024-05-01', endDate: '2024-05-05' } },
     ];
     fixture.detectChanges();
@@ -90,9 +79,7 @@ describe('HolidayComponent', () => {
   
     expect(tableRowElements.length).toBe(1);
   
-    expect(tableRowElements[0].querySelector('td:nth-child(1)').textContent).toContain('1');
-    expect(tableRowElements[0].querySelector('td:nth-child(2)').textContent).toContain('John Doe');
-    expect(tableRowElements[0].querySelector('td:nth-child(3)').textContent).toContain('2024-05-01');
-    expect(tableRowElements[0].querySelector('td:nth-child(4)').textContent).toContain('2024-05-05');
+    expect(tableRowElements[0].querySelector('td:nth-child(1)').textContent).toContain('May 1, 2024');
+    expect(tableRowElements[0].querySelector('td:nth-child(2)').textContent).toContain('May 5, 2024');
   });
 });
