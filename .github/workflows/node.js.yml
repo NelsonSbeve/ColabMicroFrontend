@@ -11,6 +11,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    container:
+      image: weltn24/up-docker-node-chrome-headless
 
     steps:
       - name: Checkout code
