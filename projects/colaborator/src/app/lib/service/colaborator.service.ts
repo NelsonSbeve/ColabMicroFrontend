@@ -7,7 +7,7 @@ import { Colaborator } from '../model/colaborator';
   providedIn: 'root'
 })
 export class ColaboratorService {
-  private colaboratorsQUrl = 'https://localhost:5001/api/Colaborator';
+  private colaboratorsQUrl = 'http://localhost:5186/api/Colaborator';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
